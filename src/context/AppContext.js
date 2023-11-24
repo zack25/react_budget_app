@@ -63,7 +63,7 @@ export const AppReducer = (state, action) => {
                 return (total = total + item.cost);
             }, 0);
             if (action.payload > 20000) {
-                alert("Budget cannot exceed " + state.currency + "20000!");
+                alert("Budget cannot exceed " + state.currency.symbol + "20000!");
             } else if (action.payload < totalExpenses) {
                 //budget cannot be lower than spending
                 alert("Budget cannot be lower than spending!");
@@ -72,7 +72,7 @@ export const AppReducer = (state, action) => {
             }
 
             return {
-                ...state,
+                ...state
             };
         case 'CHG_CURRENCY':
             action.type = "DONE";
@@ -96,8 +96,14 @@ const initialState = {
         { id: "Human Resource", name: 'Human Resource', cost: 40 },
         { id: "IT", name: 'IT', cost: 500 },
     ],
-    currency: "\u00A3" //Pound
-
+    currency: { symbol: "\u00A3", name: "Pound" }, //Pound
+    availableCurrencies: [{ symbol: "\u00A3", name: "Pound" }, { symbol: "\u20B9", name: "Rupee" }, { symbol: "\u0024", name: "Dollar" }, { symbol: "\u20AC", name: "Euro" }]
+    /*
+    <a class="dropdown-item" href="#">&#8377; Rupee</a>
+                    <a class="dropdown-item" href="#">&#x24; Dollar</a>
+                    <a class="dropdown-item" href="#">&#8364; Euro</a>
+    
+    */
 };
 
 // 2. Creates the context this is the thing our components import and use to get the state
@@ -124,7 +130,8 @@ export const AppProvider = (props) => {
                 budget: state.budget,
                 remaining: remaining,
                 dispatch,
-                currency: state.currency
+                currency: state.currency,
+                availableCurrencies: state.availableCurrencies
             }}
         >
             {props.children}
